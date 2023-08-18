@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://rf054jp32rqd"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_d7rjc"]
+[ext_resource type="PackedScene" uid="uid://baqb87nm7v60x" path="res://Assets/StarShip.tscn" id="2_fp5xt"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_imidx"]
+points = PackedVector3Array(-2, -0.5, 2, -2, 0.5, 2, 2, -0.5, 2, 2, 0.5, 2, -0.6, -0.3, -2, 0.6, -0.3, -2)
+
+[node name="Player" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+gravity_scale = 0.0
+script = ExtResource("1_d7rjc")
+
+[node name="StarShip" parent="." instance=ExtResource("2_fp5xt")]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.450965, -0.804454)
+shape = SubResource("ConvexPolygonShape3D_imidx")

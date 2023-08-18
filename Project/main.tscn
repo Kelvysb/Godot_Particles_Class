@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://d4bhpc3l88aio"]
+
+[ext_resource type="PackedScene" uid="uid://rf054jp32rqd" path="res://Player.tscn" id="1_55aiy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hlkqn"]
+sky_top_color = Color(0.592157, 0.592157, 0.592157, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_jccdb"]
+sky_material = SubResource("ProceduralSkyMaterial_hlkqn")
+
+[sub_resource type="Environment" id="Environment_3kmsb"]
+background_mode = 2
+sky = SubResource("Sky_jccdb")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g14oa"]
+size = Vector3(165.677, 20.5933, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_whqoh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cjs07"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+sky_mode = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3kmsb")
+
+[node name="Player" parent="." instance=ExtResource("1_55aiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0505991, 0, 1.41749)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.204581, 0.97885, 0, -0.97885, 0.204581, 0, 41.0139, 10.5662)
+
+[node name="Limits" type="Node3D" parent="."]
+
+[node name="Limit1" type="StaticBody3D" parent="Limits"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.1357)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Limits/Limit1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.55059)
+shape = SubResource("BoxShape3D_g14oa")
+
+[node name="Limit2" type="StaticBody3D" parent="Limits"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32.5339)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Limits/Limit2"]
+shape = SubResource("BoxShape3D_g14oa")
+
+[node name="Limit3" type="StaticBody3D" parent="Limits"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -55.727, 0, 3.134)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Limits/Limit3"]
+shape = SubResource("BoxShape3D_g14oa")
+
+[node name="Limit4" type="StaticBody3D" parent="Limits"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 55.727, 0, 3.134)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Limits/Limit4"]
+shape = SubResource("BoxShape3D_g14oa")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(113.647, 0, 0, 0, 1, 0, 0, 0, 96.2248, 0, -24.4829, 0)
+mesh = SubResource("PlaneMesh_whqoh")
+surface_material_override/0 = SubResource("StandardMaterial3D_cjs07")
