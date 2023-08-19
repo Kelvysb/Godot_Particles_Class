@@ -1,10 +1,53 @@
-[gd_scene load_steps=4 format=3 uid="uid://rf054jp32rqd"]
+[gd_scene load_steps=11 format=3 uid="uid://rf054jp32rqd"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_d7rjc"]
 [ext_resource type="PackedScene" uid="uid://baqb87nm7v60x" path="res://Assets/StarShip.tscn" id="2_fp5xt"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_imidx"]
 points = PackedVector3Array(-2, -0.5, 2, -2, 0.5, 2, 2, -0.5, 2, 2, 0.5, 2, -0.6, -0.3, -2, 0.6, -0.3, -2)
+
+[sub_resource type="Curve" id="Curve_nro7p"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(1, -0.736655), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vdejb"]
+curve = SubResource("Curve_nro7p")
+
+[sub_resource type="Curve" id="Curve_wgarr"]
+_data = [Vector2(0, 0.615658), 0.0, 0.0, 0, 0, Vector2(1, 0.174377), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qc75p"]
+curve = SubResource("Curve_wgarr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a6f8x"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3(0, 0, 1)
+spread = 0.0
+gravity = Vector3(0, 0, 9)
+initial_velocity_min = 7.0
+initial_velocity_max = 7.0
+scale_curve = SubResource("CurveTexture_qc75p")
+hue_variation_curve = SubResource("CurveTexture_vdejb")
+turbulence_enabled = true
+turbulence_noise_strength = 0.09
+turbulence_noise_scale = 0.06
+turbulence_noise_speed_random = 2.68
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctikp"]
+transparency = 1
+blend_mode = 1
+diffuse_mode = 3
+albedo_color = Color(0, 0.839216, 0.839216, 1)
+emission_enabled = true
+emission = Color(0.552941, 0.698039, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_k3ssw"]
+material = SubResource("StandardMaterial3D_ctikp")
 
 [node name="Player" type="RigidBody3D"]
 collision_layer = 3
@@ -21,3 +64,19 @@ script = ExtResource("1_d7rjc")
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.450965, -0.804454)
 shape = SubResource("ConvexPolygonShape3D_imidx")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.460658, 0.275884, 1.14567)
+amount = 100
+lifetime = 0.63
+visibility_aabb = AABB(-7.12006, -3.53267, -5.30196, 13.41, 7.78605, 12.7477)
+process_material = SubResource("ParticleProcessMaterial_a6f8x")
+draw_pass_1 = SubResource("SphereMesh_k3ssw")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.445472, 0.275884, 1.14567)
+amount = 100
+lifetime = 0.63
+visibility_aabb = AABB(-7.30138, -3.57909, -3.0897, 13.7727, 7.87889, 8.32321)
+process_material = SubResource("ParticleProcessMaterial_a6f8x")
+draw_pass_1 = SubResource("SphereMesh_k3ssw")

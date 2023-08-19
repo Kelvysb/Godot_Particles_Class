@@ -1,5 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://baqb87nm7v60x"]
+[gd_scene load_steps=9 format=3 uid="uid://baqb87nm7v60x"]
 
 [ext_resource type="PackedScene" uid="uid://c70ukb5admn5" path="res://Assets/StarShip.glb" id="1_lf621"]
+[ext_resource type="Shader" uid="uid://ljkoxjeqcxrr" path="res://Assets/StarShip.tres" id="2_0b471"]
+
+[sub_resource type="Gradient" id="Gradient_fy05t"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.945652)
+colors = PackedColorArray(0.0064667, 0.0064667, 0.0064667, 1, 0, 0.570549, 0.570549, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7n551"]
+noise_type = 2
+frequency = 0.0165
+fractal_type = 0
+cellular_jitter = 0.8
+cellular_return_type = 6
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ic0u7"]
+width = 1024
+height = 1024
+color_ramp = SubResource("Gradient_fy05t")
+noise = SubResource("FastNoiseLite_7n551")
+
+[sub_resource type="Gradient" id="Gradient_6gmpt"]
+offsets = PackedFloat32Array(0.315217)
+colors = PackedColorArray(0.0189402, 0.0189402, 0.0189402, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2nm5v"]
+gradient = SubResource("Gradient_6gmpt")
+fill_to = Vector2(1, 0.0899281)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v8t0k"]
+render_priority = 0
+shader = ExtResource("2_0b471")
+shader_parameter/Vidro = SubResource("GradientTexture2D_2nm5v")
+shader_parameter/Body = SubResource("NoiseTexture2D_ic0u7")
 
 [node name="StarShip" instance=ExtResource("1_lf621")]
+
+[node name="StarShip2" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_v8t0k")

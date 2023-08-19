@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://d4bhpc3l88aio"]
+[gd_scene load_steps=13 format=3 uid="uid://d4bhpc3l88aio"]
 
 [ext_resource type="PackedScene" uid="uid://rf054jp32rqd" path="res://Player.tscn" id="1_55aiy"]
+[ext_resource type="Script" path="res://main.gd" id="1_aseym"]
+[ext_resource type="Shader" uid="uid://fh88vpi6ckff" path="res://main.tres" id="2_hdytf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hlkqn"]
 sky_top_color = Color(0.592157, 0.592157, 0.592157, 1)
@@ -22,10 +24,26 @@ size = Vector3(165.677, 20.5933, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_whqoh"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cjs07"]
-albedo_color = Color(0, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_f7guq"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.847826)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jr30l"]
+frequency = 0.15
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jijjn"]
+width = 2048
+height = 2048
+color_ramp = SubResource("Gradient_f7guq")
+noise = SubResource("FastNoiseLite_jr30l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlt4n"]
+render_priority = 0
+shader = ExtResource("2_hdytf")
+shader_parameter/Estrelas = SubResource("NoiseTexture2D_jijjn")
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_aseym")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -79,4 +97,43 @@ shape = SubResource("BoxShape3D_g14oa")
 [node name="Background" type="MeshInstance3D" parent="."]
 transform = Transform3D(113.647, 0, 0, 0, 1, 0, 0, 0, 96.2248, 0, -24.4829, 0)
 mesh = SubResource("PlaneMesh_whqoh")
-surface_material_override/0 = SubResource("StandardMaterial3D_cjs07")
+surface_material_override/0 = SubResource("ShaderMaterial_dlt4n")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36.1302)
+
+[node name="Point1" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.9705, 0, 0)
+
+[node name="Point2" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5005, 0, 0)
+
+[node name="Point3" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5545, 0, 0)
+
+[node name="Point4" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.2291, 0, 0)
+
+[node name="Point5" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.91278e-05, 0, 0)
+
+[node name="Point6" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3737, 0, 0)
+
+[node name="Point7" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.8919, 0, 0)
+
+[node name="Point8" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.9342, 0, 0)
+
+[node name="Point9" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.4042, 0, 0)
+
+[node name="Point10" type="Node3D" parent="SpawnPoints" groups=["spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.4042, 0, 0)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
